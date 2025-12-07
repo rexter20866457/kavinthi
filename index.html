@@ -28,6 +28,7 @@ body::before{
   inset:0;
   background:rgba(0,0,0,0.35);
   z-index:0;
+  pointer-events:none; /* allow clicks through the overlay */
 }
 .card{
   position:relative;
@@ -40,7 +41,7 @@ body::before{
   max-width:420px;
   animation:pop .6s ease;
 }
-@keyframes pop{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);}}
+@keyframes pop{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);} }
 h1{color:var(--accent);margin:6px 0;}
 p{color:#333;margin:8px 0 12px;}
 input{
@@ -101,122 +102,5 @@ button.secondary{background:#eee;color:#333;}
 
 <div id="slideshowOverlay">
   <div id="slideCard">
-    <img id="slideImage" class="slideImg" src="">
-    <div id="slideCaption" style="margin-top:10px;color:#000;font-size:18px;"></div>
-  </div>
-</div>
-
-<div id="toast" class="toast"></div>
-
-<script>
-// Elements
-const toast = document.getElementById("toast");
-const passInput = document.getElementById("pass");
-const unlockBtn = document.getElementById("unlockBtn");
-const surpriseBtn = document.getElementById("surpriseBtn");
-const slideshow = document.getElementById("slideshowOverlay");
-const slideImg = document.getElementById("slideImage");
-const slideCaption = document.getElementById("slideCaption");
-
-// SLIDES (only once!)
-const slides = [
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide1.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide2.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide3.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide4.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide5.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide6.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide7.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide8.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide9.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide10.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide11.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide12.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide13.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide14.jpg",
-  "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide15.jpg"
-];
-
-// TEXT for each slide
-const messages=[
-  "You are the most special person in my life 💖",
-  "Your smile makes everything brighter ✨",
-  "Thank you for being YOU 🌻",
-  "Once again love you very much 😘",
-  "Mwuaahhh😚",
-  "I’m so lucky to have you 🎀",
-  "Happy Aniverssary once again my favourite person 🎂💘",
-  "mage umma kate😌",
-  "sudu boleeeeeee👀",
-  "cuteeeeeeee😘💘",
-  "The girl who stole my heart",
-  "The Most Kindest person i met in my life",
-  "MY Princess",
-  "Today is the most important day in my life",
-  "I LOVE YOUUUUU💘😘💘"
-
-
-];
-
-function showToast(t){
-  toast.textContent=t;
-  toast.classList.add("show");
-  setTimeout(()=>toast.classList.remove("show"),1800);
-}
-
-// PASSWORD CHECK
-unlockBtn.onclick=()=>{
-  if(passInput.value=== "kavi09"){
-    showToast("Correct password 😘");
-    unlockBtn.style.display="none";
-    passInput.style.display="none";
-    surpriseBtn.style.display="inline-block";
-  }else{
-    showToast("Wrong password naughty 🤭");
-  }
-};
-
-// SLIDESHOW
-let i=0;
-function nextSlide(){
-  if(i>=slides.length){
-    slideshow.style.display="none";
-    document.getElementById("finalActions").style.display="block";
-    document.getElementById("finalMsg").textContent =
-"No matter where I go in life, I’m happy knowing that I have a wonderful woman like you by my side. No other woman could ever make me feel the way that you do. Happy love anniversary darling.
-
-Happy love anniversary, my beautiful girl! Every day I wake up with a big smile on my face and it’s because I have your love and together we enjoy great happiness. Thanks for being part of my life.
-
-Our love anniversary is the perfect reason to say how much I love you for the amazing and beautiful woman that you are. When I hold you in my arms and we melt into one, I feel truly complete.
-
-Happy 1st love anniversary to the queen of my heart! You make my heart pace and fill my life with pleasure. Thank you for being mine!"
-   return;
-  }
-
-  slideImg.classList.remove("show");
-  slideImg.src = slides[i];
-  slideCaption.textContent = messages[i];
-  slideImg.onload =()=> requestAnimationFrame(()=> slideImg.classList.add("show"));
-  i++;
-  setTimeout(nextSlide,2500);
-}
-
-surpriseBtn.onclick=()=>{
-  surpriseBtn.style.display="none";
-  slideshow.style.display="flex";
-  nextSlide();
-};
-
-document.getElementById("doneBtn").onclick=()=>location.reload();
-</script>
-
-</body>
-</html>
-
-
-
-
-
-
-
-
+    <img id="slideImage" class="slideImg" src="" loading="lazy" alt="slide">
+    <div id="slideC
