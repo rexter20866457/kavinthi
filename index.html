@@ -41,7 +41,7 @@ body::before{
   max-width:420px;
   animation:pop .6s ease;
 }
-@keyframes pop{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);}}
+@keyframes pop{from{opacity:0;transform:scale(.8);}to{opacity:1;transform:scale(1);} }
 h1{color:var(--accent);margin:6px 0;}
 p{color:#333;margin:8px 0 12px;}
 input{
@@ -110,6 +110,10 @@ button.secondary{background:#eee;color:#333;}
 <div id="toast" class="toast"></div>
 
 <script>
+// --- SETTINGS ---
+const PASSWORD = "kavi09"; // change this to whatever password you want
+const AUTO_START_ON_UNLOCK = false; // set true if you want slideshow to start automatically on success
+
 // Elements
 const toast = document.getElementById("toast");
 const passInput = document.getElementById("pass");
@@ -118,6 +122,9 @@ const surpriseBtn = document.getElementById("surpriseBtn");
 const slideshow = document.getElementById("slideshowOverlay");
 const slideImg = document.getElementById("slideImage");
 const slideCaption = document.getElementById("slideCaption");
+
+// focus input on load
+passInput.focus();
 
 // SLIDES
 const slides = [
@@ -159,23 +166,40 @@ const messages = [
 function showToast(t){
   toast.textContent = t;
   toast.classList.add("show");
-  setTimeout(() => toast.classList.remove("show"), 1800);
+  setTimeout(()=>toast.classList.remove("show"),1800);
 }
 
+// Helper to normalize input
+function normalizeInput(s){ return String(s || "").trim(); }
+
 // PASSWORD CHECK
-unlockBtn.onclick = () =>{
-  if(passInput.value === "kavi09"){
+function tryUnlock(){
+  const entered = normalizeInput(passInput.value);
+  if(entered === PASSWORD){
     showToast("Correct password 😘");
+    // reveal surprise controls
     unlockBtn.style.display = "none";
     passInput.style.display = "none";
     surpriseBtn.style.display = "inline-block";
+    passInput.value = "";
+    // auto-start if desired
+    if(AUTO_START_ON_UNLOCK) {
+      setTimeout(()=> surpriseBtn.click(), 300);
+    }
   } else {
     showToast("Wrong password naughty 🤭");
   }
-};
+}
+
+// click + Enter support
+unlockBtn.addEventListener("click", tryUnlock);
+passInput.addEventListener("keydown", (e)=>{
+  if(e.key === "Enter") tryUnlock();
+});
 
 // SLIDESHOW
 let i = 0;
+let slideTimer = null;
 function nextSlide(){
   if(i >= slides.length){
     slideshow.style.display = "none";
@@ -192,21 +216,27 @@ Happy 1st love anniversary to the queen of my heart! You make my heart pace and 
     return;
   }
 
+  // show slide
   slideImg.classList.remove("show");
   slideImg.src = slides[i];
-  slideCaption.textContent = messages[i];
-  slideImg.onload = () => requestAnimationFrame(() => slideImg.classList.add("show"));
+  slideCaption.textContent = messages[i] || "";
+  slideImg.onload = ()=> requestAnimationFrame(()=> slideImg.classList.add("show"));
   i++;
-  setTimeout(nextSlide, 2500);
+  // schedule next
+  slideTimer = setTimeout(nextSlide, 2500);
 }
 
-surpriseBtn.onclick = () =>{
+// Surprise button
+surpriseBtn.onclick = ()=>{
   surpriseBtn.style.display = "none";
   slideshow.style.display = "flex";
-  nextSlide();
+  i = 0;
+  // small delay to ensure UI updates before first slide
+  setTimeout(nextSlide, 120);
 };
 
-document.getElementById("doneBtn").onclick = () => location.reload();
+// Done button
+document.getElementById("doneBtn").onclick = ()=> location.reload();
 </script>
 
 </body>
