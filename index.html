@@ -28,6 +28,7 @@ body::before{
   inset:0;
   background:rgba(0,0,0,0.35);
   z-index:0;
+  pointer-events:none;
 }
 .card{
   position:relative;
@@ -118,7 +119,7 @@ const slideshow = document.getElementById("slideshowOverlay");
 const slideImg = document.getElementById("slideImage");
 const slideCaption = document.getElementById("slideCaption");
 
-// SLIDES (only once!)
+// SLIDES
 const slides = [
   "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide1.jpg",
   "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide2.jpg",
@@ -137,82 +138,76 @@ const slides = [
   "https://raw.githubusercontent.com/rexter20866457/kavinthi/main/slide15.jpg"
 ];
 
-// TEXT for each slide
-const messages=[
+const messages = [
   "You are the most special person in my life 💖",
   "Your smile makes everything brighter ✨",
   "Thank you for being YOU 🌻",
   "Once again love you very much 😘",
   "Mwuaahhh😚",
   "I’m so lucky to have you 🎀",
-  "Happy Aniverssary once again my favourite person 🎂💘",
-  "mage umma kate😌",
-  "sudu boleeeeeee👀",
-  "cuteeeeeeee😘💘",
-  "The girl who stole my heart",
-  "The Most Kindest person i met in my life",
-  "MY Princess",
-  "Today is the most important day in my life",
-  "I LOVE YOUUUUU💘😘💘"
-
-
+  "Happy Anniversary once again my favourite person 🎂💘",
+  "Mage umma kate😌",
+  "Sudu boléééé👀",
+  "Cuteeeeeeee😘💘",
+  "The girl who stole my heart ❤️",
+  "The kindest person I’ve ever met",
+  "My Princess 👑",
+  "Today is the most important day in my life 💘",
+  "I LOVE YOUUUUU 💘😘💘"
 ];
 
 function showToast(t){
-  toast.textContent=t;
+  toast.textContent = t;
   toast.classList.add("show");
-  setTimeout(()=>toast.classList.remove("show"),1800);
+  setTimeout(() => toast.classList.remove("show"), 1800);
 }
 
 // PASSWORD CHECK
-unlockBtn.onclick=()=>{
-  if(passInput.value==="kavi09"){
+unlockBtn.onclick = () =>{
+  if(passInput.value === "kavi09"){
     showToast("Correct password 😘");
-    unlockBtn.style.display="none";
-    passInput.style.display="none";
-    surpriseBtn.style.display="inline-block";
-  }else{
+    unlockBtn.style.display = "none";
+    passInput.style.display = "none";
+    surpriseBtn.style.display = "inline-block";
+  } else {
     showToast("Wrong password naughty 🤭");
   }
 };
 
 // SLIDESHOW
-let i=0;
+let i = 0;
 function nextSlide(){
-  if(i>=slides.length){
-    slideshow.style.display="none";
-    document.getElementById("finalActions").style.display="block";
-    document.getElementById("finalMsg").textContent =
-"No matter where I go in life, I’m happy knowing that I have a wonderful woman like you by my side. No other woman could ever make me feel the way that you do. Happy love anniversary darling.
+  if(i >= slides.length){
+    slideshow.style.display = "none";
+    document.getElementById("finalActions").style.display = "block";
+    document.getElementById("finalMsg").textContent = `
+No matter where I go in life, I’m happy knowing that I have a wonderful woman like you by my side. No other woman could ever make me feel the way that you do. Happy love anniversary darling.
 
 Happy love anniversary, my beautiful girl! Every day I wake up with a big smile on my face and it’s because I have your love and together we enjoy great happiness. Thanks for being part of my life.
 
 Our love anniversary is the perfect reason to say how much I love you for the amazing and beautiful woman that you are. When I hold you in my arms and we melt into one, I feel truly complete.
 
-Happy 1st love anniversary to the queen of my heart! You make my heart pace and fill my life with pleasure. Thank you for being mine!"
-  return;
+Happy 1st love anniversary to the queen of my heart! You make my heart pace and fill my life with pleasure. Thank you for being mine!
+`;
+    return;
   }
 
   slideImg.classList.remove("show");
   slideImg.src = slides[i];
   slideCaption.textContent = messages[i];
-  slideImg.onload =()=> requestAnimationFrame(()=> slideImg.classList.add("show"));
+  slideImg.onload = () => requestAnimationFrame(() => slideImg.classList.add("show"));
   i++;
-  setTimeout(nextSlide,2500);
+  setTimeout(nextSlide, 2500);
 }
 
-surpriseBtn.onclick=()=>{
-  surpriseBtn.style.display="none";
-  slideshow.style.display="flex";
+surpriseBtn.onclick = () =>{
+  surpriseBtn.style.display = "none";
+  slideshow.style.display = "flex";
   nextSlide();
 };
 
-document.getElementById("doneBtn").onclick=()=>location.reload();
+document.getElementById("doneBtn").onclick = () => location.reload();
 </script>
 
 </body>
 </html>
-
-
-
-
